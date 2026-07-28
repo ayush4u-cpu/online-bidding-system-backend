@@ -8,6 +8,7 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +46,10 @@ public class User {
     @Builder.Default
     @Column(nullable = false)
     private Boolean enabled = true;
+
+    @Builder.Default
+    @Column(nullable = false, precision = 38, scale = 2)
+    private BigDecimal walletBalance = BigDecimal.ZERO;
 
     @CreationTimestamp
     @Column(updatable = false)
