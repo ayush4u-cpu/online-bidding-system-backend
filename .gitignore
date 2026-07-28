@@ -68,6 +68,7 @@ application-local.properties
 application-dev.properties
 application-prod.properties
 application-secrets.properties
+application.properties
 
 ##############################################
 # Sensitive Keys & Certificates

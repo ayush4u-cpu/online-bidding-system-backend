@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "orders")
@@ -15,11 +17,25 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String productName;
-    private String specifications;
-    private Double price;
-    private String status; // ASSIGNED, OUT_FOR_DELIVERY, DELIVERED
-    private String deliveryPerson;
-    private String image;
-    private String buyerEmail;
+    @Column(name = "final_price", nullable = false)
+    private BigDecimal finalPrice;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
+    private OrderStatus status;
+
+    @Column(name = "created_at", nullable = false)
+    private LocalDateTime createdAt;
+
+    @Column(name = "product_id", nullable = false)
+    private Long productId;
+
+    @Column(name = "buyer_id", nullable = false)
+    private Long buyerId;
+
+    @Column(name = "seller_id")
+    private Long sellerId;
+
+    @Column(name = "delivery_person_id")
+    private Long deliveryPersonId;
 }

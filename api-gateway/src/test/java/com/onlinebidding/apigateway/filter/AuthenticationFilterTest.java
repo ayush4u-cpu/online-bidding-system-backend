@@ -106,4 +106,43 @@ class AuthenticationFilterTest {
                     assertThat(status).isNotEqualTo(401);
                 });
     }
+
+    @Test
+    void whenRequestToLogoutWithoutToken_passesFilter() {
+        webTestClient.post()
+                .uri("/auth/logout")
+                .exchange()
+                .expectStatus().value(status -> {
+                    assertThat(status).isNotEqualTo(401);
+                });
+    }
+
+    @Test
+    void whenRequestToSecuredRouteWithTokenMissingClaims_returns401() {
+        String token = generateToken(null, "USER", "user@example.com", 60000L);
+
+        webTestClient.get()
+                .uri("/products/1")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
+                .exchange()
+                .expectStatus().isUnauthorized();
+    }
+
+    @Test
+    void whenRequestToSecuredRouteWithInvalidSignatureToken_returns401() {
+        byte[] bytes = new byte[32];
+        SecretKey key = Keys.hmacShaKeyFor(bytes);
+        String token = Jwts.builder()
+                .claim("userId", 1L)
+                .claim("role", "USER")
+                .subject("user@example.com")
+                .signWith(key)
+                .compact();
+
+        webTestClient.get()
+                .uri("/products/1")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
+                .exchange()
+                .expectStatus().isUnauthorized();
+    }
 }
