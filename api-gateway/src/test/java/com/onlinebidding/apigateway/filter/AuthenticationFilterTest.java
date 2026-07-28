@@ -59,7 +59,7 @@ class AuthenticationFilterTest {
     @Test
     void whenRequestToSecuredRouteWithoutToken_returns401() {
         webTestClient.get()
-                .uri("/auctions/1")
+                .uri("/products/1")
                 .exchange()
                 .expectStatus().isUnauthorized();
     }
@@ -67,7 +67,7 @@ class AuthenticationFilterTest {
     @Test
     void whenRequestToSecuredRouteWithInvalidTokenFormat_returns401() {
         webTestClient.get()
-                .uri("/auctions/1")
+                .uri("/products/1")
                 .header(HttpHeaders.AUTHORIZATION, "InvalidFormat")
                 .exchange()
                 .expectStatus().isUnauthorized();
@@ -78,7 +78,7 @@ class AuthenticationFilterTest {
         String expiredToken = generateToken(1L, "USER", "user@example.com", -1000L);
 
         webTestClient.get()
-                .uri("/auctions/1")
+                .uri("/products/1")
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + expiredToken)
                 .exchange()
                 .expectStatus().isUnauthorized();
@@ -89,7 +89,7 @@ class AuthenticationFilterTest {
         String validToken = generateToken(1L, "USER", "user@example.com", 60000L);
 
         webTestClient.get()
-                .uri("/auctions/1")
+                .uri("/products/1")
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + validToken)
                 .exchange()
                 .expectStatus().value(status -> {
