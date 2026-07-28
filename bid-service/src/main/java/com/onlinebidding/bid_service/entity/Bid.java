@@ -18,16 +18,16 @@ public class Bid {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "auction_id", nullable = false)
+    @Column(name = "product_id", nullable = false)
     private Long auctionId;
 
-    @Column(name = "bidder_id", nullable = false)
+    @Column(name = "buyer_id", nullable = false)
     private Long bidderId;
 
     @Column(name = "bidder_name", nullable = false)
     private String bidderName;
 
-    @Column(name = "amount", nullable = false, precision = 15, scale = 2)
+    @Column(name = "bid_amount", nullable = false, precision = 15, scale = 2)
     private BigDecimal amount;
 
     @Column(name = "bid_time", nullable = false)

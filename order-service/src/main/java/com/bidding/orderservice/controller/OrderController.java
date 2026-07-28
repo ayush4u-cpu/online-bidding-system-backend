@@ -32,14 +32,14 @@ public class OrderController {
         return ResponseEntity.ok(orderService.getOrderById(numericId));
     }
 
-    @GetMapping("/buyer/{buyerEmail}")
-    public ResponseEntity<List<OrderDto>> getOrdersByBuyer(@PathVariable("buyerEmail") String buyerEmail) {
-        return ResponseEntity.ok(orderService.getOrdersByBuyer(buyerEmail));
+    @GetMapping("/buyer/{buyerId}")
+    public ResponseEntity<List<OrderDto>> getOrdersByBuyer(@PathVariable("buyerId") Long buyerId) {
+        return ResponseEntity.ok(orderService.getOrdersByBuyer(buyerId));
     }
 
-    @GetMapping("/delivery/{deliveryPerson}")
-    public ResponseEntity<List<OrderDto>> getOrdersByDeliveryPerson(@PathVariable("deliveryPerson") String deliveryPerson) {
-        return ResponseEntity.ok(orderService.getOrdersByDeliveryPerson(deliveryPerson));
+    @GetMapping("/delivery/{deliveryPersonId}")
+    public ResponseEntity<List<OrderDto>> getOrdersByDeliveryPerson(@PathVariable("deliveryPersonId") Long deliveryPersonId) {
+        return ResponseEntity.ok(orderService.getOrdersByDeliveryPerson(deliveryPersonId));
     }
 
     @GetMapping
@@ -55,10 +55,10 @@ public class OrderController {
     }
 
     @PutMapping("/{id}/assign")
-    public ResponseEntity<OrderDto> assignDeliveryPerson(@PathVariable("id") String id, @RequestBody Map<String, String> payload) {
+    public ResponseEntity<OrderDto> assignDeliveryPerson(@PathVariable("id") String id, @RequestBody Map<String, Long> payload) {
         Long numericId = parseOrderId(id);
-        String deliveryPerson = payload.get("deliveryPerson");
-        return ResponseEntity.ok(orderService.assignDeliveryPerson(numericId, deliveryPerson));
+        Long deliveryPersonId = payload.get("deliveryPersonId");
+        return ResponseEntity.ok(orderService.assignDeliveryPerson(numericId, deliveryPersonId));
     }
 
     private Long parseOrderId(String id) {
