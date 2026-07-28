@@ -42,6 +42,7 @@ public class User {
     @Column(nullable = false)
     private Role role;
 
+    @Builder.Default
     @Column(nullable = false)
     private Boolean enabled = true;
 
@@ -52,6 +53,7 @@ public class User {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
+    @Builder.Default
     @OneToMany(
     		mappedBy = "user",
     		cascade = CascadeType.ALL,
