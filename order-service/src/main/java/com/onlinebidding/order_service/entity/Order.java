@@ -50,4 +50,16 @@ public class Order {
 
     @Column(name = "delivery_person_id")
     private Long deliveryPersonId;
+
+    @Column(name = "delivery_person_name")
+    private String deliveryPersonName;
+
+    @Column(name = "assigned_date")
+    private LocalDateTime assignedDate;
+
+    @Column(name = "delivery_status")
+    private String deliveryStatus;
+
+    @Column(name = "estimated_delivery")
+    private LocalDateTime estimatedDelivery;
 }
