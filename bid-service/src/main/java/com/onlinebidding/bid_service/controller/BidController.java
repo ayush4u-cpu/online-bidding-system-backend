@@ -58,4 +58,9 @@ public class BidController {
     public ResponseEntity<List<BidDto>> getBidsByUser(@PathVariable("userId") Long userId) {
         return ResponseEntity.ok(bidService.getBidsByUser(userId));
     }
+
+    @GetMapping
+    public ResponseEntity<List<BidDto>> getAllBids() {
+        return ResponseEntity.ok(bidService.getAllBids());
+    }
 }

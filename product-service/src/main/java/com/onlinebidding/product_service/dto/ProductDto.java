@@ -39,6 +39,8 @@ public class ProductDto {
 
 	private BigDecimal currentHighestBid;
 
+	private LocalDateTime auctionStartTime;
+
 	@NotNull(message = "Auction end time is required")
 	@Future(message = "Auction end time must be in the future")
 	private LocalDateTime auctionEndTime;
