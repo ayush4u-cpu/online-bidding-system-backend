@@ -61,4 +61,12 @@ public class UserController {
         userService.deleteUser(id);
         return ResponseEntity.ok("User deleted successfully.");
     }
+
+    @GetMapping("/delivery")
+    public ResponseEntity<List<UserDto>> getDeliveryPartners() {
+        List<UserDto> deliveryPartners = userService.getAllUsers().stream()
+                .filter(u -> com.onlinebidding.user_service.entity.Role.DELIVERY == u.getRole())
+                .toList();
+        return ResponseEntity.ok(deliveryPartners);
+    }
 }

@@ -21,6 +21,10 @@ public class OrderDto {
     private Long buyerId;
     private Long sellerId;
     private Long deliveryPersonId;
+    private String deliveryPersonName;
+    private LocalDateTime assignedDate;
+    private String deliveryStatus;
+    private LocalDateTime estimatedDelivery;
     private BigDecimal finalPrice;
     private OrderStatus status;
     private LocalDateTime createdAt;

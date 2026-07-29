@@ -11,5 +11,5 @@ public interface OrderService {
     List<OrderDto> getOrdersByDeliveryPerson(Long deliveryPersonId);
     List<OrderDto> getAllOrders();
     OrderDto updateOrderStatus(Long id, String status);
-    OrderDto assignDeliveryPerson(Long id, Long deliveryPersonId);
+    OrderDto assignDeliveryPerson(Long id, Long deliveryPersonId, String token);
 }

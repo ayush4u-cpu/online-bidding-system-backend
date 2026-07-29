@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -60,11 +61,14 @@ public class OrderController {
         return ResponseEntity.ok(orderService.updateOrderStatus(numericId, status));
     }
 
-    @PutMapping("/{id}/assign")
-    public ResponseEntity<OrderDto> assignDeliveryPerson(@PathVariable("id") String id, @RequestBody Map<String, Long> payload) {
+    @PostMapping("/{id}/assign-delivery")
+    public ResponseEntity<OrderDto> assignDeliveryPerson(
+            @RequestHeader(value = "Authorization", required = false) String token,
+            @PathVariable("id") String id,
+            @RequestBody Map<String, Long> payload) {
         Long numericId = parseOrderId(id);
         Long deliveryPersonId = payload.get("deliveryPersonId");
-        return ResponseEntity.ok(orderService.assignDeliveryPerson(numericId, deliveryPersonId));
+        return ResponseEntity.ok(orderService.assignDeliveryPerson(numericId, deliveryPersonId, token));
     }
 
     private Long parseOrderId(String id) {
