@@ -1,6 +1,7 @@
 package com.onlinebidding.apigateway.filter;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
@@ -24,6 +25,10 @@ public class RouteValidator {
     }
 
     public boolean isSecured(ServerHttpRequest request) {
+        if (request.getMethod() == HttpMethod.OPTIONS) {
+            return false;
+        }
+
         String requestPath = request.getURI().getPath();
         String requestMethod = request.getMethod().name();
 

@@ -26,6 +26,10 @@ public class BidServiceImpl implements BidService {
 
     @Override
     public BidDto placeBid(BidDto bidDto) {
+        if (bidDto.getAmount() == null && bidDto.getBidAmount() != null) {
+            bidDto.setAmount(bidDto.getBidAmount());
+        }
+
         if (bidDto.getAuctionId() == null || bidDto.getBidderId() == null || bidDto.getAmount() == null) {
             throw new IllegalArgumentException("Auction ID, Bidder ID, and Bid Amount are required");
         }
@@ -35,7 +39,8 @@ public class BidServiceImpl implements BidService {
         if (highestBidOpt.isPresent()) {
             Bid highestBid = highestBidOpt.get();
             if (bidDto.getAmount().compareTo(highestBid.getAmount()) <= 0) {
-                throw new IllegalArgumentException("Bid amount must be strictly higher than the current highest bid of " + highestBid.getAmount());
+                throw new IllegalArgumentException(
+                        "Bid amount must be strictly higher than the current highest bid of " + highestBid.getAmount());
             }
         }
 

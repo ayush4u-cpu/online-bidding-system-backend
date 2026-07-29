@@ -71,6 +71,7 @@ class AuthControllerTest {
         request.setName("John Doe");
         request.setEmail("john@example.com");
         request.setPassword("password123");
+        request.setRole("BUYER");
 
         RegisterResponse response = new RegisterResponse("User registered successfully");
         when(authService.register(any(RegisterRequest.class))).thenReturn(response);
@@ -88,6 +89,7 @@ class AuthControllerTest {
         request.setName("John Doe");
         request.setEmail("john@example.com");
         request.setPassword("password123");
+        request.setRole("BUYER");
 
         when(authService.register(any(RegisterRequest.class)))
                 .thenThrow(new EmailAlreadyExistsException("Email already exists"));
@@ -113,7 +115,8 @@ class AuthControllerTest {
                 .andExpect(jsonPath("$.message").value("Validation failed"))
                 .andExpect(jsonPath("$.errors.name").exists())
                 .andExpect(jsonPath("$.errors.email").exists())
-                .andExpect(jsonPath("$.errors.password").exists());
+                .andExpect(jsonPath("$.errors.password").exists())
+                .andExpect(jsonPath("$.errors.role").exists());
     }
 
     // --- LOGIN TESTS ---

@@ -25,7 +25,13 @@ public class BidController {
     }
 
     @PostMapping
-    public ResponseEntity<?> placeBid(@RequestBody BidDto bidDto) {
+    public ResponseEntity<?> placeBid(
+            @RequestHeader(value = "X-User-Role", required = false) String role,
+            @RequestBody BidDto bidDto) {
+        if (role == null || !"BUYER".equalsIgnoreCase(role)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                    .body(Map.of("error", "Access denied. Only BUYER can place bids."));
+        }
         try {
             BidDto placedBid = bidService.placeBid(bidDto);
             // Broadcast the new bid to all subscribers of this auction
