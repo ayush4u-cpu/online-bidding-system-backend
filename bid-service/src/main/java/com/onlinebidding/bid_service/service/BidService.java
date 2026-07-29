@@ -9,4 +9,5 @@ public interface BidService {
     List<BidDto> getBidsForAuction(Long auctionId);
     Optional<BidDto> getHighestBidForAuction(Long auctionId);
     List<BidDto> getBidsByUser(Long bidderId);
+    List<BidDto> getAllBids();
 }

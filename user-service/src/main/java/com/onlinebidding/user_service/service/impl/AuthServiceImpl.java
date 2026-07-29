@@ -6,6 +6,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.util.Map;
+import org.springframework.web.client.RestTemplate;
 import com.onlinebidding.user_service.dto.LoginRequest;
 import com.onlinebidding.user_service.dto.LoginResponse;
 import com.onlinebidding.user_service.dto.RefreshTokenRequest;
@@ -33,6 +36,7 @@ public class AuthServiceImpl implements AuthService {
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
     private final RefreshTokenService refreshTokenService;
+    private final RestTemplate restTemplate;
 
     @Override
     public RegisterResponse register(RegisterRequest request) {
@@ -61,7 +65,21 @@ public class AuthServiceImpl implements AuthService {
                 .enabled(true)
                 .build();
 
-        userRepository.save(user);
+        User savedUser = userRepository.save(user);
+
+        if (role == Role.BUYER) {
+            try {
+                String walletServiceUrl = "http://localhost:8083/wallets/create";
+                Map<String, Object> walletRequest = Map.of(
+                        "userId", savedUser.getId(),
+                        "initialBalance", BigDecimal.ZERO
+                );
+                restTemplate.postForObject(walletServiceUrl, walletRequest, Object.class);
+            } catch (Exception e) {
+                System.err.println("Failed to auto-create wallet: " + e.getMessage());
+                e.printStackTrace();
+            }
+        }
 
         return new RegisterResponse("User registered successfully");
     }

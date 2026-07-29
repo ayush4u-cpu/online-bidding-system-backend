@@ -35,7 +35,7 @@ public class Product {
 
 	private String description;
 
-	@Column(name = "image_url")
+	@Column(name = "image_url", columnDefinition = "LONGTEXT")
 	private String imageUrl;
 
 	@Column(name = "base_price", nullable = false)
@@ -43,6 +43,9 @@ public class Product {
 
 	@Column(name = "current_highest_bid")
 	private BigDecimal currentHighestBid;
+
+	@Column(name = "auction_start_time")
+	private LocalDateTime auctionStartTime;
 
 	@Column(name = "auction_end_time")
 	private LocalDateTime auctionEndTime;

@@ -81,6 +81,14 @@ public class BidServiceImpl implements BidService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public List<BidDto> getAllBids() {
+        return bidRepository.findAll().stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+    }
+
     private BidDto convertToDto(Bid bid) {
         return BidDto.builder()
                 .id(bid.getId())
